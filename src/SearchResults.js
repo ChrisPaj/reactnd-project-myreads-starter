@@ -9,7 +9,7 @@ class SearchResults extends React.Component {
       <div className="search-books-results">
           <ol className="books-grid" />
 		  <li>{this.props.result.title}</li>
-		  <li>{this.props.result.author}</li>
+		  <li>{this.props.result.authors}</li>
         </div>
     );
   }

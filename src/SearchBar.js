@@ -1,27 +1,34 @@
 import React from "react";
 import "./App.css";
 import SearchResults from "./SearchResults";
+import * as BooksAPI from "./BooksAPI";
 
 class SearchBar extends React.Component {
   state = {
     searchTerm: "",
-    searchBooksResults: [
+    searchBooksResults: [] /* [
       { title: "Fly Me to the Moon", author: "Steven Black" },
       { title: "Fly Me to the Sun", author: "Steven White" }
-    ]
+    ] */
   };
 
   adaptSearchTerm = event => {
     this.setState({ searchTerm: event.target.value });
   };
 
-  /* ComponentDidUpdate(){
-  searchBooks = string => {
-    BooksAPI.search(string).then(result =>
-      this.setState({ searchBooksResults: result })
-    );
-  };
-} */
+  searchBooks = () => {
+    BooksAPI.search(this.state.searchTerm)
+      .then(result => this.setState({ searchBooksResults: result }));
+  }
+
+  componentDidUpdate(prevState) {
+    console.log("ComponentDidUpdate");
+    if (this.state.searchTerm !== prevState.searchTerm) {
+      console.log("New search term");
+      this.searchBooks();
+      console.log(JSON.stringify(this.state.searchBooksResults))
+    }
+  }
 
   render() {
     return (
