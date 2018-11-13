@@ -13,14 +13,16 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     BooksAPI.getAll().then(result => this.setState({ allbooks: result }));
+    BooksAPI.search('Fitness').then(result =>
+      this.setState({ searchbooks: result }))
   }
 
-  searchBooks = string => {
+/*   searchBooks = string => {
     BooksAPI.search(string).then(result =>
       this.setState({ searchbooks: result })
     );
   };
-
+ */
   render() {
     // const ShowAllBooks = [{title: 'Fly Me to the Moon', author:'Steven Black'}, {title: 'Fly Me to the Sun', author:'Steven White'}]
 
@@ -35,6 +37,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
+                
                 <BookShelf
                   bookList={this.state.allbooks}
                   sortOfShelf={"Currently Reading"}
