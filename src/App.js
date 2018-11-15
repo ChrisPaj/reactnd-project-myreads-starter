@@ -8,17 +8,14 @@ import "./App.css";
 class BooksApp extends React.Component {
   state = {
     showSearchPage: false,
-    allbooks: [],
-    searchbooks: [],
+    allBooks: [],
+    searchBooks: [],
     read: [],
-    wanttoread: []
+    wantToRead: [],
   };
 
   componentDidMount() {
-    BooksAPI.getAll().then(result => this.setState({ allbooks: result }));
-    BooksAPI.search("Fitness").then(result =>
-      this.setState({ searchbooks: result })
-    );
+    BooksAPI.getAll().then(allBooks => this.setState({ allBooks }));
   }
 
   /*   searchBooks = string => {
@@ -44,12 +41,12 @@ class BooksApp extends React.Component {
               <div className="list-books-content">
                 <div>
                   <BookShelf
-                    bookList={this.state.allbooks}
-                    sortOfShelf={"Currently Reading"}
+                    bookList={this.state.allBooks}
+                    shelfTitle={"Currently Reading"}
                   />
                   <BookShelf
-                    bookList={this.state.wanttoread}
-                    sortOfShelf={"Want to Read"}
+                    bookList={this.state.wantToRead}
+                    shelfTitle={"Want to Read"}
                   />
                   <BookShelf bookList={this.state.read} sortOfShelf={"Read"} />
                 </div>
