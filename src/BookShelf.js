@@ -3,6 +3,9 @@ import "./App.css";
 import Book from './Book'
 
 class BookShelf extends React.Component {
+  componentDidMount() {
+    console.log("BookShelf: ComponentDidMount")
+  }
   render() {
 	const  { bookList, shelfTitle }  = this.props;
     console.log(bookList)
@@ -13,7 +16,7 @@ class BookShelf extends React.Component {
           <ol className="books-grid">
             {this.props.bookList.map((book, index) => {
               return (
-                <Book key={index} book={book} /> 
+                <Book key={index} book={book} changeBookShelf={this.props.changeBookShelf}/> 
               );
             })}
           </ol>

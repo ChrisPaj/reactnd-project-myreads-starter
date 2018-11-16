@@ -36,7 +36,7 @@ class SearchBar extends React.Component {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <Link exact to="/"className="close-search">Close</Link>
+          <Link to="/"className="close-search">Close</Link>
           <div className="search-books-input-wrapper">
             <input
               type="text"
@@ -49,6 +49,7 @@ class SearchBar extends React.Component {
         <BookShelf
           bookList={this.state.searchBooksResults}
           sortOfShelf={"Search Books"}
+          changeBookShelf={this.props.changeBookShelf}
         />
       </div>
     );

@@ -11,28 +11,47 @@ class BooksApp extends React.Component {
     allBooks: [],
     searchBooks: [],
     read: [],
-    wantToRead: [],
+    wantToRead: []
   };
 
   componentDidMount() {
+    console.log("BooksApp: ComponentDidMount")
     BooksAPI.getAll().then(allBooks => this.setState({ allBooks }));
   }
 
-  /*   searchBooks = string => {
-    BooksAPI.search(string).then(result =>
-      this.setState({ searchbooks: result })
+/*   componentDidUpdate(prevProps, prevState) {
+    if (this.state.allBooks !== prevState.allBooks) {
+    console.log("BooksApp: ComponentDidUpdate")
+    BooksAPI.getAll().then(allBooks => this.setState({ allBooks }));
+    }
+  } */
+
+  changeBookShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(
+      BooksAPI.getAll().then(allBooks => {
+        this.setState({ allBooks });
+        console.log("BooksApp: setState after update")
+      })
     );
   };
- */
-  render() {
-    // const ShowAllBooks = [{title: 'Fly Me to the Moon', author:'Steven Black'}, {title: 'Fly Me to the Sun', author:'Steven White'}]
 
+  render() {
+    const currentlyReading = this.state.allBooks.filter(book => book.shelf === "currentlyReading");
+    const read = this.state.allBooks.filter(book => book.shelf === "read");
+    const wantToRead = this.state.allBooks.filter(book => book.shelf === "wantToRead");
     return (
       <div className="app">
-        <Route path="/search" component={SearchBar} />
         <Route
-          exact
-          path="/"
+          path="/search"
+          render={() => (
+            <SearchBar
+              changeBookShelf={(book, shelf) =>
+                this.changeBookShelf(book, shelf)
+              }
+            />
+          )}
+        />
+        <Route exact path="/"
           render={() => (
             <div className="list-books">
               <div className="list-books-title">
@@ -41,14 +60,26 @@ class BooksApp extends React.Component {
               <div className="list-books-content">
                 <div>
                   <BookShelf
-                    bookList={this.state.allBooks}
+                    bookList={currentlyReading}
                     shelfTitle={"Currently Reading"}
+                    changeBookShelf={(book, shelf) =>
+                      this.changeBookShelf(book, shelf)
+                    }
                   />
                   <BookShelf
-                    bookList={this.state.wantToRead}
+                    bookList={wantToRead}
                     shelfTitle={"Want to Read"}
+                    changeBookShelf={(book, shelf) =>
+                      this.changeBookShelf(book, shelf)
+                    }
                   />
-                  <BookShelf bookList={this.state.read} sortOfShelf={"Read"} />
+                  <BookShelf
+                    bookList={read}
+                    shelfTitle={"Read"}
+                    changeBookShelf={(book, shelf) =>
+                      this.changeBookShelf(book, shelf)
+                    }
+                  />
                 </div>
               </div>
               <div className="open-search">
