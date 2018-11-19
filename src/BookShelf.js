@@ -1,22 +1,28 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import "./App.css";
-import Book from './Book'
+import Book from "./Book";
 
 class BookShelf extends React.Component {
   componentDidMount() {
-    console.log("BookShelf: ComponentDidMount")
+    //console.log("BookShelf: ComponentDidMount");
   }
   render() {
-	const  { bookList, shelfTitle }  = this.props;
-    console.log(bookList)
+    const { bookList, shelfTitle, booksWithShelf } = this.props;
+    //console.log(bookList);
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{shelfTitle}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {this.props.bookList.map((book, index) => {
+            {bookList.map((book, index) => {
               return (
-                <Book key={index} book={book} changeBookShelf={this.props.changeBookShelf}/> 
+                <Book
+                  key={index}
+                  book={book}
+                  booksWithShelf={booksWithShelf}
+                  changeBookShelf={this.props.changeBookShelf}
+                />
               );
             })}
           </ol>
@@ -27,3 +33,11 @@ class BookShelf extends React.Component {
 }
 
 export default BookShelf;
+
+BookShelf.propTypes = {
+  changeBookShelf: PropTypes.func.isRequired,
+  bookList: PropTypes.array.isRequired,
+  booksWithShelf: PropTypes.array.isRequired,
+  shelfTitle: PropTypes.string.isRequired,
+}
+

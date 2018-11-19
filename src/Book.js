@@ -1,25 +1,49 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import "./App.css";
 
 class Book extends React.Component {
-  state = {
-    shelf: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      shelf: ""
+    };
+  }
 
+  componentDidMount() {
+    if (this.props.book.shelf) {
+      console.log("this books shelf: " + this.props.book.shelf);
+      this.setState({ shelf: this.props.book.shelf });
+    }
+  }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.shelf !== prevState.shelf) {
       this.props.changeBookShelf(this.props.book, this.state.shelf);
     }
   }
 
-  setBookStatus = e => {
-    let shelf = e.target.value;
-    this.setState({ shelf: shelf });
+  setBookState = e => {
+    this.setState({ shelf: e.target.value });
+  };
+
+  setSelectOptionValue = () => {
+    //console.log("booksWithShelf: " + JSON.stringify(this.props.booksWithShelf))
+    var isBooksShelfSet = this.props.booksWithShelf.find(
+      book => book.id === this.props.book.id
+    );
+    if (isBooksShelfSet) {
+      console.log("BookOnShelf: " + isBooksShelfSet.title + " Bookshelf: " + isBooksShelfSet.shelf)
+      return isBooksShelfSet.shelf;
+      
+    } else {
+      console.log("NotBookOnShelf: " + this.props.book.title)
+      return "none";
+    }
   };
 
   render() {
     const { book } = this.props;
-
+    // console.log(this.props.book);
     return (
       <li>
         <div className="book">
@@ -33,7 +57,10 @@ class Book extends React.Component {
               }}
             />
             <div className="book-shelf-changer">
-              <select onChange={this.setBookStatus}>
+              <select
+                onChange={this.setBookState}
+                defaultValue={this.setSelectOptionValue()}
+              >
                 <option value="move" disabled>
                   Move to...
                 </option>
@@ -53,3 +80,9 @@ class Book extends React.Component {
 }
 
 export default Book;
+
+Book.propTypes = {
+  changeBookShelf: PropTypes.func.isRequired,
+  book: PropTypes.array.isRequired,
+  booksWithShelf: PropTypes.array.isRequired,
+}

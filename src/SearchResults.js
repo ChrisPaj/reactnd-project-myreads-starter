@@ -17,3 +17,8 @@ class SearchResults extends React.Component {
 }
 
 export default SearchResults;
+
+SearchResults.propTypes = {
+  changeBookShelf: PropTypes.func.isRequired,
+  booksWithShelf: PropTypes.array.isRequired
+}
