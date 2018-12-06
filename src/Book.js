@@ -43,7 +43,9 @@ class Book extends React.Component {
 
   render() {
     const { book } = this.props;
-    // console.log(this.props.book);
+   console.log(this.props.book);
+    var url = book.imageLinks ? book.imageLinks.thumbnail : ""
+    
     return (
       <li>
         <div className="book">
@@ -53,8 +55,9 @@ class Book extends React.Component {
               style={{
                 width: 128,
                 height: 193,
-                backgroundImage: "url(" + book.imageLinks.thumbnail + ")"
+                backgroundImage: "url(" + url + ")"
               }}
+
             />
             <div className="book-shelf-changer">
               <select
@@ -83,6 +86,6 @@ export default Book;
 
 Book.propTypes = {
   changeBookShelf: PropTypes.func.isRequired,
-  book: PropTypes.array.isRequired,
+  book: PropTypes.object.isRequired,
   booksWithShelf: PropTypes.array.isRequired,
 }

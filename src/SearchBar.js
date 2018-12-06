@@ -19,13 +19,22 @@ class SearchBar extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+  
     if (this.state.searchTerm !== prevState.searchTerm) {
       //console.log("New search term: " + this.state.searchTerm);
-      BooksAPI.search(this.state.searchTerm).then(result =>
-        this.setState({ searchBooksResults: result })
-      );
-      //console.log(JSON.stringify(this.state.searchBooksResults));
+      BooksAPI.search(this.state.searchTerm).then((result) => {
+        console.log("result.length vor: " + result.length)
+        console.log(JSON.stringify(result))
+        result.length > 0 ? this.setState({ searchBooksResults: result }) : this.setState({ searchBooksResults: [] })
+        console.log("searchBooksResults: " + JSON.stringify(this.state.searchBooksResults));
+        console.log("result.length nach: " + result.length)
+      }).catch((err) => {
+        console.log("Fehler gefunden!")
+        //this.setState({ searchBooksResults: []})
+      });
+        
     }
+     
   }
 
   render() {
