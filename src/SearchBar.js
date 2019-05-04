@@ -21,6 +21,10 @@ class SearchBar extends React.Component {
   componentDidUpdate(prevProps, prevState) {
   
     if (this.state.searchTerm !== prevState.searchTerm) {
+      if (this.state.searchTerm === "") {
+        this.setState({ searchBooksResults: []})
+        return
+      }
       //console.log("New search term: " + this.state.searchTerm);
       BooksAPI.search(this.state.searchTerm).then((result) => {
         console.log("result.length vor: " + result.length)
@@ -29,12 +33,10 @@ class SearchBar extends React.Component {
         console.log("searchBooksResults: " + JSON.stringify(this.state.searchBooksResults));
         console.log("result.length nach: " + result.length)
       }).catch((err) => {
-        console.log("Fehler gefunden!")
+        console.log("Fehler gefunden!", err)
         //this.setState({ searchBooksResults: []})
-      });
-        
-    }
-     
+      });     
+    }   
   }
 
   render() {
